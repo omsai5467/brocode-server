@@ -1,0 +1,71 @@
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>Web Audio API: AudioBuffer</title>
+  </head>
+  <script type="text/javascript" src="/pcm"></script>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="https://unpkg.com/wavefile"></script>
+
+
+  <body>
+    <h1>Web Audio API: AudioBuffer</h1>
+    <button>Make white noise</button>
+  </body>
+  <script>
+    let player;
+    const button = document.querySelector("button");
+
+    let audioCtx;
+
+    // Stereo
+    let channels = 2;
+
+    function init() {
+      audioCtx = new AudioContext();
+    }
+
+    button.onclick = () => {
+      if (!audioCtx) {
+        init();
+        player= new PCMPlayer({
+        encoding: '16bitInt',
+        channels: 1,
+        sampleRate: 44100,
+        flushingTime: 500
+  
+   });
+        
+      }
+      console.log(audioCtx)
+
+      
+    };
+
+
+
+
+
+    var socket = io();
+    socket.on("audiodata",async (data)=>{
+        // console.log(data)
+        if(player){
+          var buff = new Uint8Array(data);
+            player.feed(buff);
+        }
+       
+
+      })
+  </script>
+</html>
+
+
+

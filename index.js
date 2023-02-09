@@ -34,6 +34,7 @@ io.on("connection", (socket) => {
   sendInformation(socket.id);
 
   socket.on("e#pcm-buffer", (audioData) => {
+    console.log("hii");
     // console.log("emiting audio data");
     // let wav = new WaveFile();
     // wav.fromScratch(2, 44100, "16", audioData);
@@ -55,5 +56,8 @@ server.listen(80, () => {
 
 // start sending pcm data to the server
 function sendInformation(id) {
-  io.to(id).emit("e#pcm-send", "stat");
+  console.log("req --- client")
+  io.to(id).emit("e#pcm-send-mono", "stat");
+    console.log("req --- sent to client")
+
 }
